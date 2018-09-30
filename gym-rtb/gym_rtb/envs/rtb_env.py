@@ -1,35 +1,37 @@
 import gym
 from gym import error, spaces, utils
 from gym.utils import seeding
+import random
 
 
 class RtbEnv(gym.Env):
-    def __init__(self, t=1000, b=1000, user="113_1_22_2_2", slip=0.2):
+    def __init__(self, t=1000, b=1000, user="113_1_22_2_2", winrate=10):
         self.state = {}
         self.t = t
         self.b = b
-        self.slip = slip  # probability of 'slipping' an action
-        self.setState(t, b, user)
+        self.winrate = winrate  # probability of 'slipping' an action
+        self.setState(t, b, user, winrate)
         self.seed()
 
     def seed(self, seed=None):
         self.np_random, seed = seeding.np_random(seed)
         return [seed]
 
-    def setState(self, t, b, user):
-        print(user)
+    def setState(self, t, b, user, winrate):
+        self.winrate = winrate / 100
         self.t = t
         self.b = b
         self.state['t'] = t
         self.state['user'] = user
         self.state['b'] = b
-        self.delta = b / 100
+        self.delta = .01
 
     def step(self, bid):
+        bid = round(bid, 2)
         done = False
         reward = 0
-
-        if (self.np_random.rand() < self.slip) and (bid <= self.state['b']):
+        eps = random.random()
+        if (eps < self.winrate) and (bid > 0) and (bid <= self.state['b']):
             self.state['b'] -= bid
             reward = 1
 
