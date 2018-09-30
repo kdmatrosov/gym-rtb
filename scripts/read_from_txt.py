@@ -20,7 +20,7 @@ mapXtoWR = {}  # CTR
 for line in data:
     x = re.findall(r'(\S+)', line)
     # key = hash(x[4] + "_" + x[5] + "_" + x[6])
-    key = x[4] + "_" + x[5] + "_" + x[6]
+    key = x[4] + "_" + x[5] + "_" + x[6] + "_" + x[2] + "_" + x[3]
     if key in mapXtoWR:
         mapXtoWR[key][0] += int(x[0])
         mapXtoWR[key][1] += int(x[1])
