@@ -10,7 +10,6 @@ def hash(text):
 
 f = open('../data1.txt', 'r')
 data = f.readlines()
-# print(re.findall(r'(\S+)', x[1]))
 f.close()
 
 f = open("../winrate.txt", "w")
