@@ -1,1 +1,1 @@
-from gym_foo.envs.rtb_env import RtbEnv
+from gym_rtb.envs.rtb_env import RtbEnv
