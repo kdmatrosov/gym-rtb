@@ -15,7 +15,7 @@ env = gym.make('Rtb-v0')
 env.setState(t=1000, b=300, user='113_1_22_2_2', winrate=win_data)
 
 
-def test_one(env, num_episodes=1000):
+def test_one(env, num_episodes=10):
     model = Sequential()
     model.add(InputLayer(batch_input_shape=(1, 2)))
     model.add(Dense(300, activation='sigmoid'))

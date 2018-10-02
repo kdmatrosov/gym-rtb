@@ -15,4 +15,11 @@ pip3 install matplotlib
 
 ## Installation
 
-[Stackoverflow install tensorflow for python3](https://stackoverflow.com/questions/38896424/tensorflow-not-found-using-pip) 
+[Stackoverflow install tensorflow for python3](https://stackoverflow.com/questions/38896424/tensorflow-not-found-using-pip)
+
+## Possible errors
+>Authentication required: You must have push access to verify locks
+```bash
+rm .git/hooks/pre-push
+git push
+``` 
