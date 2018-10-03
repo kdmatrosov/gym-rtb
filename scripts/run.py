@@ -20,7 +20,7 @@ for line in data:
 env = gym.make('Rtb-v0')
 env.setState(t=1000, b=300)
 
-
+# сделать подгрузку из файла по куче моделей
 def test_one(env, num_episodes=300):
     model = Sequential()
     model.add(InputLayer(batch_input_shape=(1, 2)))
@@ -49,7 +49,7 @@ def test_one(env, num_episodes=300):
                 bid = np.random.randint(0, int((maxBid - minBid) / delta)) * np.random.randint(0, 2)
             else:
                 bid = np.argmax(model.predict(stateNP))
-
+            # необходимо рандомить по одному объявлению, а не по всем сразу
             new_s, r, done, _ = env.step(minBid + bid * delta, float(windata[(np.random.randint(0, len(windata)))][2]))
 
             new_stateNP = np.array([new_s['t'], new_s['b']]).reshape(1, 2)
