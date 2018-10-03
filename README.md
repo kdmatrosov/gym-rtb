@@ -3,7 +3,7 @@
 Install GYM enviroment
 ```bash
 cd gym-rtb
-pip install -e .
+pip3 install -e .
 ```
 
 ## Modules
@@ -23,3 +23,7 @@ pip3 install matplotlib
 rm .git/hooks/pre-push
 git push
 ``` 
+
+## Usefull links
+
+[How can I save a Keras model?](https://keras.io/getting-started/faq/#how-can-i-save-a-keras-model)
