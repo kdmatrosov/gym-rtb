@@ -1,4 +1,5 @@
 import gym
+import re
 import numpy as np
 import random
 import gym_rtb
@@ -7,15 +8,20 @@ from keras.models import Sequential
 from keras.layers import Dense, InputLayer
 import matplotlib.pylab as plt
 
-winrate = Win_Rate()
-win_data = winrate.getData("113_1_22_2_2")
-win_data = float(win_data[2])
+f = open('../winrate.txt', 'r')
+data = f.readlines()
+data = data[1:]  # убрать первую строку
+f.close()
+windata = []
+for line in data:
+    x = re.findall(r'(\S+)', line)
+    windata.append([x[0], x[1], x[2], x[3]])
 
 env = gym.make('Rtb-v0')
-env.setState(t=1000, b=300, user='113_1_22_2_2', winrate=win_data)
+env.setState(t=1000, b=300)
 
 
-def test_one(env, num_episodes=10):
+def test_one(env, num_episodes=300):
     model = Sequential()
     model.add(InputLayer(batch_input_shape=(1, 2)))
     model.add(Dense(300, activation='sigmoid'))
@@ -44,7 +50,7 @@ def test_one(env, num_episodes=10):
             else:
                 bid = np.argmax(model.predict(stateNP))
 
-            new_s, r, done, _ = env.step(minBid + bid * delta)
+            new_s, r, done, _ = env.step(minBid + bid * delta, float(windata[(np.random.randint(0, len(windata)))][2]))
 
             new_stateNP = np.array([new_s['t'], new_s['b']]).reshape(1, 2)
 
