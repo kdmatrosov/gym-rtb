@@ -4,6 +4,7 @@ import numpy as np
 import random
 import gym_rtb
 from win_rate import Win_Rate
+from dec_keras import Dec_Keras
 from keras.models import Sequential
 from keras.layers import Dense, InputLayer
 import matplotlib.pylab as plt
@@ -19,6 +20,8 @@ for line in data:
 
 env = gym.make('Rtb-v0')
 env.setState(t=1000, b=300)
+
+decKeras = Dec_Keras()
 
 
 # сделать подгрузку из файла по куче моделей
@@ -73,14 +76,15 @@ def test_one(env, num_episodes=300):
 
 
 # сделать подгрузку из файла по куче моделей
-def test_two(env, num_episodes=300, campId='1', advId='1'):
+def test_two(env, num_episodes=1, campId='1', advId='1'):
     __windata = list(filter(lambda x: x[3] == campId and x[4] == advId, windata))
     model = Sequential()
+
     model.add(InputLayer(batch_input_shape=(1, 2)))
     model.add(Dense(300, activation='sigmoid'))
     model.add(Dense(700, activation='linear'))
     model.compile(loss='mse', optimizer='adam', metrics=['mae'])
-
+    model = decKeras.loadWeights(model, campId + "_" + advId)
     acc = []
     for i in range(num_episodes):
         minBid = 3.
@@ -89,7 +93,7 @@ def test_two(env, num_episodes=300, campId='1', advId='1'):
         done = False
         y = 0.95
         eps = 0.5
-        decay_factor = 0.999
+        # decay_factor = 0.999
         delta = 0.01
         if i % 10 == 0:
             print("Episode {} of {}".format(i + 1, num_episodes))
@@ -118,6 +122,7 @@ def test_two(env, num_episodes=300, campId='1', advId='1'):
                 done = True
             sum += r
         acc.append(sum / count)
+    decKeras.saveWeights(model, campId + "_" + advId)
     plt.plot(acc)
     plt.ylabel('Average reward per game')
     plt.xlabel('Number of games')
