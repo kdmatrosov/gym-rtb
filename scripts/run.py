@@ -133,8 +133,9 @@ def test_two(env, num_episodes=1000, campId='1', advId='1'):
     return 0
 
 
-def train_model(env, campId='1', advId='1', minBid=3., maxBid=10., num_episodes=100):
+def train_model(env, campId='1', advId='1', minBid=3., maxBid=10., num_episodes=10):
     print(datetime.datetime.now().strftime("%Y-%m-%d %H:%M"))
+    print(campId, advId)
     __windata = list(filter(lambda x: x[3] == campId and x[4] == advId, windata))
     model = Sequential()
     nnMin = int(minBid / delta)
@@ -180,6 +181,42 @@ def train_model(env, campId='1', advId='1', minBid=3., maxBid=10., num_episodes=
         acc.append(sum / count)
     decKeras.saveWeights(model, campId + "_" + advId)
     print(datetime.datetime.now().strftime("%Y-%m-%d %H:%M"))
+
+def test_model(env, campId='1', advId='1', minBid=3., maxBid=10., num_episodes=100):
+    print(datetime.datetime.now().strftime("%Y-%m-%d %H:%M"))
+    __windata = list(filter(lambda x: x[3] == campId and x[4] == advId, windata))
+    model = Sequential()
+    nnMin = int(minBid / delta)
+    nnMax = int(maxBid / delta)
+    model.add(Dense(nnMin, activation='sigmoid'))
+    model.add(Dense(nnMin, activation='sigmoid'))
+    model.add(Dense(nnMax, activation='linear'))
+    model.compile(loss='mse', optimizer='adam', metrics=['mae'])
+    model = decKeras.loadWeights(model, campId + "_" + advId)
+    model = decKeras.loadWeights(model, campId + "_" + advId)
+    acc = []
+    for i in range(num_episodes):
+        s = env.reset()
+        done = False
+        y = 0.95
+        eps = 0.5
+        # decay_factor = 0.999
+        if i % 10 == 0:
+            print("Episode {} of {}".format(i + 1, num_episodes))
+        count = 0
+        sum = 0
+        while not done:
+            count += 1
+            stateNP = np.array([s['t'], s['b']]).reshape(1, 2)
+            bid = np.argmax(model.predict(stateNP))
+            new_s, r, done, _ = env.step(minBid + bid * delta,
+                                         float(__windata[(np.random.randint(0, len(__windata)))][2]))
+            s = new_s
+            if (s['b'] < minBid):
+                done = True
+            sum += r
+        acc.append(sum / count)
+    print(datetime.datetime.now().strftime("%Y-%m-%d %H:%M"))
     plt.plot(acc)
     plt.ylabel('Average reward per game')
     plt.xlabel('Number of games')
@@ -192,6 +229,6 @@ def callback_yad(env, num_episodes=1, campId='1', advId='1'):
     return bid
 
 
-for campX in range(1, 2):
-    for advX in range(1, 2):
+for campX in range(1, 3):
+    for advX in range(1, 3):
         train_model(env, str(campX), str(advX))
