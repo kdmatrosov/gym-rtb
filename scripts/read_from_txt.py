@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 import re
 
-f = open('../data1.txt', 'r')
+f = open('../data.txt', 'r')
 data = f.readlines()
 f.close()
 
-f = open("../winrate.txt", "w")
+f = open("../data/set.txt", "w")
 data = data[1:]  # убрать первую строку
 
 mapXtoWR = {}  # CTR
