@@ -4,7 +4,7 @@ import re
 
 class Win_Rate:
     def __init__(self):
-        f = open("../winrate.txt", "r")
+        f = open("../set.txt", "r")
         data = f.readlines()
         f.close()
         self.data = {}
