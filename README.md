@@ -15,6 +15,8 @@ pip3 install matplotlib
 
 ## Installation
 
+Create folder ```keras``` in root with subfolders `model`, `weight`, `architecture`
+
 [Stackoverflow install tensorflow for python3](https://stackoverflow.com/questions/38896424/tensorflow-not-found-using-pip)
 
 ## Possible errors
