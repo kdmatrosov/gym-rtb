@@ -10,7 +10,7 @@ from keras.layers import Dense, InputLayer
 import matplotlib.pylab as plt
 import datetime
 
-f = open('../winrate.txt', 'r')
+f = open('../data/test/set.txt', 'r')
 data = f.readlines()
 data = data[1:]  # убрать первую строку
 f.close()
@@ -183,6 +183,14 @@ def train_model(env, campId='1', advId='1', minBid=3., maxBid=10., num_episodes=
     print(datetime.datetime.now().strftime("%Y-%m-%d %H:%M"))
 
 def test_model(env, campId='1', advId='1', minBid=3., maxBid=10., num_episodes=100):
+    f = open('../data/train/set.txt', 'r')
+    data = f.readlines()
+    data = data[1:]  # убрать первую строку
+    f.close()
+    windata = []
+    for line in data:
+        x = re.findall(r'(\S+)', line)
+        windata.append([x[0], x[1], x[2], x[3], x[4], x[5]])
     print(datetime.datetime.now().strftime("%Y-%m-%d %H:%M"))
     __windata = list(filter(lambda x: x[3] == campId and x[4] == advId, windata))
     model = Sequential()
