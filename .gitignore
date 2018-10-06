@@ -106,6 +106,7 @@ venv.bak/
 # files
 winrate.txt
 data.txt
+set.txt
 
 
 /.idea/
