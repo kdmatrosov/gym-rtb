@@ -134,7 +134,7 @@ def test_two(env, num_episodes=1000, campId='1', advId='1'):
     return 0
 
 
-def train_model(env, _adv=Adv(), num_episodes=10):
+def train_model(env, _adv=Adv(), num_episodes=1000):
     minBid = _adv.minBid
     maxBid = _adv.maxBid
     campId = _adv.campId
@@ -243,8 +243,22 @@ def test_model(env, _adv=Adv(), num_episodes=100):
     return 0
 
 
-def callback_yad(env, _adv=Adv()):
-    bid = 0.0
+def callback_yad(_adv=Adv(), t=1, b=0):
+    minBid = _adv.minBid
+    maxBid = _adv.maxBid
+    campId = _adv.campId
+    advId = _adv.advId
+    model = Sequential()
+    nnMin = int(minBid / delta)
+    nnMax = int(maxBid / delta)
+    model.add(Dense(nnMin, activation='sigmoid'))
+    model.add(Dense(nnMin, activation='sigmoid'))
+    model.add(Dense(nnMax, activation='linear'))
+    model.compile(loss='mse', optimizer='adam', metrics=['mae'])
+    model = decKeras.loadWeights(model, campId + "_" + advId)
+    model = decKeras.loadWeights(model, campId + "_" + advId)
+    stateNP = np.array([t, b]).reshape(1, 2)
+    bid = np.argmax(model.predict(stateNP))
     return bid
 
 
