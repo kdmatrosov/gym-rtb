@@ -4,6 +4,7 @@ import numpy as np
 import random
 import gym_rtb
 from win_rate import Win_Rate
+from adv import Adv
 from dec_keras import Dec_Keras
 from keras.models import Sequential
 from keras.layers import Dense, InputLayer
@@ -133,7 +134,11 @@ def test_two(env, num_episodes=1000, campId='1', advId='1'):
     return 0
 
 
-def train_model(env, campId='1', advId='1', minBid=3., maxBid=10., num_episodes=10):
+def train_model(env, _adv=Adv(), num_episodes=10):
+    minBid = _adv.minBid
+    maxBid = _adv.maxBid
+    campId = _adv.campId
+    advId = _adv.advId
     print(datetime.datetime.now().strftime("%Y-%m-%d %H:%M"))
     print(campId, advId)
     __windata = list(filter(lambda x: x[3] == campId and x[4] == advId, windata))
@@ -182,7 +187,13 @@ def train_model(env, campId='1', advId='1', minBid=3., maxBid=10., num_episodes=
     decKeras.saveWeights(model, campId + "_" + advId)
     print(datetime.datetime.now().strftime("%Y-%m-%d %H:%M"))
 
-def test_model(env, campId='1', advId='1', minBid=3., maxBid=10., num_episodes=100):
+
+def test_model(env, _adv=Adv(), num_episodes=100):
+    minBid = _adv.minBid
+    maxBid = _adv.maxBid
+    campId = _adv.campId
+    advId = _adv.advId
+
     f = open('../data/train/set.txt', 'r')
     data = f.readlines()
     data = data[1:]  # убрать первую строку
@@ -232,11 +243,12 @@ def test_model(env, campId='1', advId='1', minBid=3., maxBid=10., num_episodes=1
     return 0
 
 
-def callback_yad(env, num_episodes=1, campId='1', advId='1'):
+def callback_yad(env, _adv=Adv()):
     bid = 0.0
     return bid
 
 
 for campX in range(1, 3):
     for advX in range(1, 3):
-        train_model(env, str(campX), str(advX))
+        _adv = Adv(str(campX), str(advX), 3., 10.)
+        train_model(env, _adv)
