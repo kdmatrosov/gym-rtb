@@ -243,7 +243,7 @@ def test_model(env, _adv=Adv(), num_episodes=100):
     return 0
 
 
-def callback_yad(_adv=Adv(), t=1, b=0):
+def callback_google(_adv=Adv(), t=1, b=0):
     minBid = _adv.minBid
     maxBid = _adv.maxBid
     campId = _adv.campId
