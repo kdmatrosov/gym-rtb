@@ -1,9 +1,8 @@
 from random import randint
 import matplotlib.pylab as plt
 
-print(randint(0, 9))
 acc = []
-
+plt.figure(figsize=(8,4))
 for number in range(60 * 24):
     max = 30
     rate = 100
@@ -30,13 +29,13 @@ for number in range(60 * 24):
 
     num = randint(-1 + int(max / 5), max + randint(-4, 5)) if randint(-1 + int(max / 5), rate) != 0 else 0
     acc.append(num)
-    print(num)
 
 plt.plot(acc)
 plt.ylabel('Клики')
 plt.xlabel('Минуты')
 plt.show()
 
+plt.figure(figsize=(8,4))
 acc2 = []
 i = 0
 for number in range(0, 24):
