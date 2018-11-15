@@ -2,7 +2,8 @@ from random import randint
 import matplotlib.pylab as plt
 
 acc = []
-plt.figure(figsize=(8,4))
+acc2 = []
+plt.figure(figsize=(8, 4))
 for number in range(60 * 24):
     max = 27
     rate = 100
@@ -32,13 +33,8 @@ for number in range(60 * 24):
     num = randint(-1 + int(max / 5), max + randint(-4, 5)) if randint(-1 + int(max / 5), rate) != 0 else 0
     acc.append(num)
 
-plt.plot(acc)
-plt.ylabel('Клики')
-plt.xlabel('Минуты')
-plt.show()
-
-plt.figure(figsize=(8,4))
 acc2 = []
+acc3 = []
 i = 0
 for number in range(0, 24):
     sum = 0
@@ -46,8 +42,10 @@ for number in range(0, 24):
         sum = sum + acc[i]
         i = i + 1
     acc2.append(sum)
+    acc3.append(sum + randint(sum * 10, sum * 11))
 
 plt.plot(acc2)
-plt.ylabel('Клики')
+plt.plot(acc3)
+plt.ylabel('Показы')
 plt.xlabel('Часы')
 plt.show()
