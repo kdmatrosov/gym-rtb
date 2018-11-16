@@ -1,19 +1,25 @@
 from random import randint
 import matplotlib.pylab as plt
+import numpy as np
 
 acc = []
 acc2 = []
-plt.figure(figsize=(8, 4))
 for number in range(60 * 24):
     max = 27
     rate = 100
-    if number < 500:
+    if number <= 500:
         max = 7
+        if number < 400:
+            max = 6
         if number > 100 and number < 300:
             max = 5
     else:
         if number < 800:
             max = 10
+        if number < 700:
+            max = 9
+        if number < 600:
+            max = 8
         max = 15 + randint(-1, 2)
         if number > 1000:
             max = 22
@@ -42,10 +48,22 @@ for number in range(0, 24):
         sum = sum + acc[i]
         i = i + 1
     acc2.append(sum)
-    acc3.append(sum + randint(sum * 10, sum * 11))
+    acc3.append(sum + randint(sum * randint(10,11) + randint(-10, 50), sum * (randint(12, 15)) + randint(-50, 50)))
 
-plt.plot(acc2)
-plt.plot(acc3)
-plt.ylabel('Показы')
-plt.xlabel('Часы')
+fig, ax1 = plt.subplots()
+t = np.arange(0.01, 10.0, 0.01)
+s1 = np.exp(t)
+ax1.plot(acc2, 'b-')
+ax1.set_xlabel('Часы')
+# Make the y-axis label, ticks and tick labels match the line color.
+ax1.set_ylabel('Клики', color='b')
+ax1.tick_params('y', colors='b')
+
+ax2 = ax1.twinx()
+s2 = np.sin(2 * np.pi * t)
+ax2.plot(acc3, 'r-')
+ax2.set_ylabel('Показы', color='r')
+ax2.tick_params('y', colors='r')
+
+fig.tight_layout()
 plt.show()
