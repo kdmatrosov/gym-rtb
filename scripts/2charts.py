@@ -26,7 +26,7 @@ for number in range(60 * 24):
         if number > 1100:
             max = 27
         if number > 1150:
-            max = 24
+            max = 25
         if number > 1200:
             max = 22
         if number > 1250:
@@ -35,6 +35,7 @@ for number in range(60 * 24):
             max = 12
         if number > 1350:
             max = 9
+        max -= 2
 
     num = randint(-1 + int(max / 5), max + randint(-4, 5)) if randint(-1 + int(max / 5), rate) != 0 else 0
     acc.append(num)
@@ -48,7 +49,7 @@ for number in range(0, 24):
         sum = sum + acc[i]
         i = i + 1
     acc2.append(sum)
-    acc3.append(sum + randint(sum * randint(10,11) + randint(-10, 50), sum * (randint(12, 15)) + randint(-50, 50)))
+    acc3.append(sum + randint(sum * randint(12,13) + randint(-10, 50), sum * (randint(14, 17)) + randint(-50, 50)))
 
 fig, ax1 = plt.subplots()
 t = np.arange(0.01, 10.0, 0.01)
