@@ -72,8 +72,8 @@ def test_one(env, num_episodes=300):
             sum += r
         list.append(sum / count)
     plt.plot(list)
-    plt.ylabel('Average reward per game')
-    plt.xlabel('Number of games')
+    plt.ylabel('CTR')
+    plt.xlabel('Number of auctions')
     plt.show()
     return 0
 
@@ -128,8 +128,8 @@ def test_two(env, num_episodes=1000, campId='1', advId='1'):
     decKeras.saveWeights(model, campId + "_" + advId)
     print(datetime.datetime.now().strftime("%Y-%m-%d %H:%M"))
     plt.plot(acc)
-    plt.ylabel('Average reward per game')
-    plt.xlabel('Number of games')
+    plt.ylabel('CTR')
+    plt.xlabel('Number of auctions')
     plt.show()
     return 0
 
@@ -237,8 +237,8 @@ def test_model(env, _adv=Adv(), num_episodes=100):
         acc.append(sum / count)
     print(datetime.datetime.now().strftime("%Y-%m-%d %H:%M"))
     plt.plot(acc)
-    plt.ylabel('Average reward per game')
-    plt.xlabel('Number of games')
+    plt.ylabel('CTR')
+    plt.xlabel('Number of auctions')
     plt.show()
     return 0
 
