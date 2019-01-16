@@ -29,11 +29,11 @@ delta = 0.01
 
 
 # сделать подгрузку из файла по куче моделей
-def test_one(env, num_episodes=300):
+def test_one(env, num_episodes=3000):
     model = Sequential()
     model.add(InputLayer(batch_input_shape=(1, 2)))
     model.add(Dense(300, activation='sigmoid'))
-    model.add(Dense(700, activation='linear'))
+    model.add(Dense(700, activation='sigmoid'))
     model.compile(loss='mse', optimizer='adam', metrics=['mae'])
 
     list = []
@@ -56,7 +56,6 @@ def test_one(env, num_episodes=300):
                 bid = np.random.randint(0, int((maxBid - minBid) / delta)) * np.random.randint(0, 2)
             else:
                 bid = np.argmax(model.predict(stateNP))
-            # необходимо рандомить по одному объявлению, а не по всем сразу
             new_s, r, done, _ = env.step(minBid + bid * delta, float(windata[(np.random.randint(0, len(windata)))][2]))
 
             new_stateNP = np.array([new_s['t'], new_s['b']]).reshape(1, 2)
@@ -262,7 +261,8 @@ def callback_google(_adv=Adv(), t=1, b=0):
     return bid
 
 
-for campX in range(1, 3):
-    for advX in range(1, 3):
-        _adv = Adv(str(campX), str(advX), 3., 10.)
-        train_model(env, _adv)
+# for campX in range(1, 3):
+#     for advX in range(1, 3):
+#         _adv = Adv(str(campX), str(advX), 3., 10.)
+#         train_model(env, _adv)
+test_one(env)
